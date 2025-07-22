@@ -1,13 +1,38 @@
-# React + Vite
+Ajali is a platform that helps users report emergencies and accidents in real-time. The aim is to speed up response times by giving first responders timely and accurate information.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features:
 
-Currently, two official plugins are available:
+ User Side
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Sign Up & Login: Users can create an account and log in securely.
 
-## Expanding the ESLint configuration
+Report an Incident: Users can submit a report with:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# ajali-frontend2
+Description of the emergency
+
+Location (auto-detected or manual)
+
+Upload image or video evidence
+
+Track Status: Users can see the progress of their report (e.g. pending, in progress, resolved).
+
+View All Reports: A map or list showing nearby reports (for awareness and verification).
+
+Edit or Delete Own Reports: Users can manage their own submitted incidents.
+
+
+Notifications (Optional)
+Email or SMS alerts to authorities when a serious report is filed.
+
+Other
+
+Mobile-Friendly UI: Built with responsiveness in mind.
+
+JWT Authentication: For secure access to protected routes.
+
+Redux Toolkit: Handles global state (auth, incident list, status updates).
+
+RESTful API (Flask): Clean endpoints for frontend-backend communication.
+
+PostgreSQL DB: Stores users, reports, media, and statuses.
+
