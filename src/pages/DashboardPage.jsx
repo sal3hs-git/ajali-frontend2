@@ -71,5 +71,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "1rem",
+    backgroundColor:"white"
   },
 };

@@ -8,7 +8,7 @@ export default function ReportPage() {
 
   const onSubmit = (data) => {
     console.log("Mock Report Submitted:", data);
-    setMessage("✅ Incident reported successfully!");
+    setMessage(" Incident reported successfully!");
     reset();
     setTimeout(() => setMessage(""), 3000);
   };
@@ -107,7 +107,7 @@ const styles = {
     paddingBottom: "0.5rem",
   },
   userTag: {
-    backgroundColor: "#e0e0e0",
+    backgroundColor: "red",
     padding: "0.25rem 0.75rem",
     borderRadius: "999px",
     fontWeight: "bold",
@@ -115,16 +115,19 @@ const styles = {
   title: {
     fontSize: "1.5rem",
     marginBottom: "1rem",
+  
   },
   form: {
     display: "flex",
     flexDirection: "column",
     gap: "1rem",
+    
   },
   input: {
     padding: "0.75rem",
     border: "1px solid #ccc",
     borderRadius: "6px",
+    
   },
   textarea: {
     padding: "0.75rem",
@@ -145,7 +148,7 @@ const styles = {
   },
   button: {
     padding: "0.75rem",
-    backgroundColor: "#007bff",
+    backgroundColor: "reed",
     color: "white",
     fontWeight: "bold",
     border: "none",
@@ -160,7 +163,7 @@ const styles = {
   backLink: {
     display: "inline-block",
     marginTop: "1rem",
-    color: "#333",
+    color: "black",
     textDecoration: "none",
     fontWeight: "bold",
   },

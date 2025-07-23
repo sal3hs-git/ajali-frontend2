@@ -1,0 +1,59 @@
+/* src/styles.css */
+body {
+    background-color: red;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+h1, h2 {
+    color: black;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+button, .submit-button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover, .submit-button:hover {
+    background-color: #333;
+}
+
+label {
+    color: black;
+    font-weight: bold;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.back-button {
+    color: black;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}

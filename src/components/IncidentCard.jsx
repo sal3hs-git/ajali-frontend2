@@ -14,5 +14,6 @@ export default function IncidentCard({ incident }) {
     borderRadius: "8px",
     padding: "1rem",
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+    
   };
   

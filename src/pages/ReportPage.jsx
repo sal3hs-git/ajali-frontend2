@@ -7,8 +7,8 @@ export default function ReportPage() {
   const [message, setMessage] = useState("");
 
   const onSubmit = (data) => {
-    console.log("Mock Incident Submitted:", data);
-    setMessage("✅ Incident reported successfully!");
+    console.log("Mock Report Submitted:", data);
+    setMessage("Incident reported successfully!");
     reset();
     setTimeout(() => setMessage(""), 3000);
   };
@@ -16,7 +16,7 @@ export default function ReportPage() {
   return (
     <div style={styles.container}>
       <header style={styles.header}>
-        <h2>Ajali</h2>
+        <h2 style={styles.logo}>Ajali</h2>
         <span style={styles.userTag}>Orrein</span>
       </header>
 
@@ -63,7 +63,7 @@ export default function ReportPage() {
         />
 
         <div style={styles.uploadSection}>
-          <label style={styles.label}>📷 Image Upload</label>
+          <label style={styles.label}>Image Upload</label>
           <input
             type="file"
             accept="image/*"
@@ -73,7 +73,7 @@ export default function ReportPage() {
         </div>
 
         <div style={styles.uploadSection}>
-          <label style={styles.label}>🎥 Video Upload</label>
+          <label style={styles.label}> Video Upload</label>
           <input
             type="file"
             accept="video/*"
@@ -97,23 +97,34 @@ const styles = {
     fontFamily: "Arial, sans-serif",
     maxWidth: "600px",
     margin: "0 auto",
+    backgroundColor: "#ffffff",
+    borderRadius: "10px",
+    border: "2px solid #d32f2f",
+    boxShadow: "0 0 10px rgba(211, 47, 47, 0.3)",
   },
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "1rem",
-    borderBottom: "1px solid #ccc",
+    marginBottom: "1.5rem",
     paddingBottom: "0.5rem",
+    borderBottom: "2px solid #d32f2f",
+  },
+  logo: {
+    color: "#d32f2f",
+    fontWeight: "bold",
+    fontSize: "1.5rem",
   },
   userTag: {
-    backgroundColor: "#e0e0e0",
-    padding: "0.25rem 0.75rem",
+    backgroundColor: "#f8d7da",
+    color: "#d32f2f",
+    padding: "0.4rem 0.8rem",
     borderRadius: "999px",
     fontWeight: "bold",
   },
   title: {
     fontSize: "1.5rem",
+    color: "#d32f2f",
     marginBottom: "1rem",
   },
   form: {
@@ -125,42 +136,46 @@ const styles = {
     padding: "0.75rem",
     border: "1px solid #ccc",
     borderRadius: "6px",
+    fontSize: "1rem",
   },
   textarea: {
     padding: "0.75rem",
     height: "100px",
     border: "1px solid #ccc",
     borderRadius: "6px",
+    fontSize: "1rem",
   },
   uploadSection: {
     display: "flex",
     flexDirection: "column",
   },
   label: {
-    marginBottom: "0.25rem",
     fontWeight: "bold",
+    color: "#d32f2f",
+    marginBottom: "0.3rem",
   },
   fileInput: {
     border: "none",
   },
   button: {
     padding: "0.75rem",
-    backgroundColor: "#007bff",
+    backgroundColor: "#d32f2f",
     color: "white",
     fontWeight: "bold",
     border: "none",
     borderRadius: "6px",
     cursor: "pointer",
+    fontSize: "1rem",
   },
   success: {
     color: "green",
-    marginTop: "1rem",
     fontWeight: "bold",
+    marginTop: "1rem",
   },
   backLink: {
     display: "inline-block",
-    marginTop: "1rem",
-    color: "#333",
+    marginTop: "1.5rem",
+    color: "#d32f2f",
     textDecoration: "none",
     fontWeight: "bold",
   },

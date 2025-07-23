@@ -3,7 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
 import ReportPage from "./pages/ReportPage";
-
+import LoginForm from "./components/Auth/LoginForm";
 function App() {
   return (
     <Routes>
