@@ -22,10 +22,21 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
 
-const url = isRegistering ? "/register" : "/login";
+// Build correct URL based on isRegistering
+const url = isRegistering
+  ? "http://127.0.0.1:5000/auth/register"
+  : "http://127.0.0.1:5000/auth/login";
+
 const body = isRegistering
-  ? formData
-  : { email: formData.email, password: formData.password };
+  ? {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+    }
+  : {
+      email: formData.email,
+      password: formData.password,
+    };
 
 if (isRegistering && formData.password !== formData.confirmPassword) {
   setError("Passwords do not match.");
@@ -33,7 +44,7 @@ if (isRegistering && formData.password !== formData.confirmPassword) {
   return;
 }
 
-fetch(`http://127.0.0.1:5000/auth/login${url}`, {
+fetch(url, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(body),
@@ -43,7 +54,10 @@ fetch(`http://127.0.0.1:5000/auth/login${url}`, {
     return res.json();
   })
   .then((data) => {
-    // Optionally store token: localStorage.setItem("token", data.token);
+    // Store token if returned (optional)
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
     navigate("/report-incident");
   })
   .catch((err) => setError(err.message))
@@ -161,3 +175,4 @@ fetch(`http://127.0.0.1:5000/auth/login${url}`, {
 </div>
   );
 }
+
