@@ -1,77 +1,163 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
-  return (
-    <div style={styles.page}>
-      <div style={styles.card}>
-        <header style={styles.header}>
-          <h2 style={styles.logo}>Ajali</h2>
-        </header>
-        <form style={styles.form}>
-          <input type="email" placeholder="Email" style={styles.input} />
-          <input type="password" placeholder="Password" style={styles.input} />
-          <button type="submit" style={styles.button}>Login</button>
-        </form>
-        <p style={styles.register}>
-          Don’t have an account? <Link to="/register" style={styles.link}>Register</Link>
-        </p>
-      </div>
-    </div>
-  );
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(null);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+const url = isRegistering ? "/register" : "/login";
+const body = isRegistering
+  ? formData
+  : { email: formData.email, password: formData.password };
+
+if (isRegistering && formData.password !== formData.confirmPassword) {
+  setError("Passwords do not match.");
+  setLoading(false);
+  return;
 }
 
-const styles = {
-  page: {
-    backgroundColor: '#FEE2E2',
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  card: {
-    backgroundColor: '#FFFFFF',
-    padding: '40px',
-    borderRadius: '16px',
-    width: '320px',
-    boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
-    textAlign: 'center',
-  },
-  header: {
-    marginBottom: '20px',
-  },
-  logo: {
-    color: '#B91C1C',
-    fontSize: '2rem',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
-  },
-  input: {
-    padding: '12px',
-    border: '2px solid #DC2626',
-    borderRadius: '8px',
-    fontSize: '1rem',
-  },
-  button: {
-    padding: '12px',
-    backgroundColor: '#DC2626',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontWeight: 'bold',
-  },
-  register: {
-    marginTop: '-100px',
-    fontSize: '0.9rem',
-    position:'relative'
-  
-  },
-  link: {
-    color: '#B91C1C',
-    textDecoration: 'none',
-    fontWeight: 'bold',
-  },
-};
+fetch(`http://127.0.0.1:5000/auth/login${url}`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body),
+})
+  .then((res) => {
+    if (!res.ok) throw new Error("Login/Register failed");
+    return res.json();
+  })
+  .then((data) => {
+    // Optionally store token: localStorage.setItem("token", data.token);
+    navigate("/report-incident");
+  })
+  .catch((err) => setError(err.message))
+  .finally(() => setLoading(false));
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#FEE2E2] px-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+        <h1 className="text-3xl font-extrabold text-center text-red-600 mb-6">
+          {isRegistering ? "Create an Ajali Account" : "Login to Ajali"}
+        </h1>
+
+    {error && (
+      <div className="bg-red-100 text-red-600 p-3 rounded mb-4 text-sm">
+        {error}
+      </div>
+    )}
+
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {isRegistering && (
+        <input
+          type="text"
+          name="username"
+          placeholder="Full Name"
+          value={formData.username}
+          onChange={handleChange}
+          className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+          required
+        />
+      )}
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        value={formData.email}
+        onChange={handleChange}
+        className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+        required
+      />
+
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+        required
+      />
+
+      {isRegistering && (
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+          required
+        />
+      )}
+
+      <button
+        type="submit"
+        disabled={loading}
+        className={`w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition ${
+          loading ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      >
+        {loading
+          ? isRegistering
+            ? "Signing Up..."
+            : "Logging In..."
+          : isRegistering
+          ? "Sign Up"
+          : "Login"}
+      </button>
+    </form>
+
+    <div className="mt-4 text-center text-sm text-gray-600">
+      {isRegistering ? (
+        <>
+          Already have an account?{" "}
+          <button
+            onClick={() => setIsRegistering(false)}
+            className="text-red-600 hover:underline font-medium"
+          >
+            Login here
+          </button>
+        </>
+      ) : (
+        <>
+          New to Ajali?{" "}
+          <button
+            onClick={() => setIsRegistering(true)}
+            className="text-red-600 hover:underline font-medium"
+          >
+            Create account
+          </button>
+        </>
+      )}
+    </div>
+
+    <div className="mt-6 text-center">
+      <button
+        onClick={() => navigate("/register")}
+        className="text-blue-600 underline text-sm hover:text-blue-800"
+      >
+        Continue without an account →
+      </button>
+    </div>
+  </div>
+</div>
+  );
+}
