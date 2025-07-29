@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -8,25 +7,24 @@ export default function ReportPage() {
   const [message, setMessage] = useState("");
 
   const onSubmit = async (data) => {
-    // Convert latitude and longitude to numbers
-    const payload = {
-      title: data.title,
-      description: data.description,
-      latitude: parseFloat(data.latitude),
-      longitude: parseFloat(data.longitude),
-      status: data.status,
-    };
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("latitude", data.latitude.toString());
+    formData.append("longitude", data.longitude.toString());
 
-console.log("📤 Submitting Incident:", payload);
+formData.append("status", data.status);
+
+// Append media files
+for (let i = 0; i < data.media.length; i++) {
+  formData.append("media", data.media[i]);
+}
 
 try {
   const response = await fetch("http://localhost:5000/incidents", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",  
-    body: JSON.stringify(payload),
+    credentials: "include",
+    body: formData, // No need for Content-Type header with FormData
   });
 
   const result = await response.json();
@@ -48,50 +46,28 @@ try {
 
   return (
     <div style={styles.container}>
-      <header style={styles.header}>
-        <h2>Ajali</h2>
-        <span style={styles.userTag}>Orrein</span>
-      </header>
-
-  <h3 style={styles.title}>Report an Incident</h3>
+      {/* ... header and title unchanged ... */}
 
   <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
-    <input
-      type="text"
-      placeholder="Title"
-      {...register("title")}
-      style={styles.input}
-      required
-    />
-
-    <textarea
-      placeholder="Description"
-      {...register("description")}
-      style={styles.textarea}
-      required
-    />
-
-    <input
-      type="text"
-      placeholder="Latitude"
-      {...register("latitude")}
-      style={styles.input}
-      required
-    />
-
-    <input
-      type="text"
-      placeholder="Longitude"
-      {...register("longitude")}
-      style={styles.input}
-      required
-    />
+    <input type="text" placeholder="Title" {...register("title")} style={styles.input} required />
+    <textarea placeholder="Description" {...register("description")} style={styles.textarea} required />
+    <input type="text" placeholder="Latitude" {...register("latitude")} style={styles.input} required />
+    <input type="text" placeholder="Longitude" {...register("longitude")} style={styles.input} required />
 
     <select {...register("status")} style={styles.input} required>
       <option value="">Select status</option>
       <option value="open">Open</option>
       <option value="closed">Closed</option>
     </select>
+
+    {/* Add media file input here */}
+    <input
+      type="file"
+      multiple
+      accept="image/*,video/*"
+      {...register("media")}
+      style={styles.input}
+    />
 
     <button type="submit" style={styles.button}>Submit</button>
     {message && <p style={styles.success}>{message}</p>}
@@ -165,3 +141,4 @@ const styles = {
     fontWeight: "bold",
   },
 };
+
