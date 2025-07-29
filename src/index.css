@@ -1,6 +1,6 @@
 
 body {
-  background-color: #110808;
+  background-color: #000000;
   color: #ff0808;
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
@@ -18,8 +18,8 @@ body {
 
 /* Login card box */
 .bg-white {
-  background-color: #1f1f1f !important;
-  color: #e0e0e0;
+  background-color: #1f1f1f ;
+  color: #e75959;
   padding: 2rem ;
   border-radius: 1.5rem;
   box-shadow: 0 0 20px rgba(241, 0, 0, 0.3);
@@ -31,9 +31,9 @@ body {
 /* Page title */
 .text-3xl {
   text-align: center;
-  font-size: 1.875rem !important;
+  font-size: 1.875rem ;
   margin-bottom: 1.5rem;
-  color: #ef4444 !important;
+  color: #ef4444 ;
   font-weight: 800;
 }
 
@@ -48,7 +48,7 @@ input {
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   background-color: #292929;
-  color: #ffffff;
+  color: #000000;
   border: 1px solid #f87171;
   font-size: 1rem;
   box-sizing: border-box;
@@ -62,8 +62,8 @@ input:focus {
 
 /* Error message box */
 .bg-red-100 {
-  background-color: #7f1d1d !important;
-  color: #fca5a5 !important;
+  background-color: #7f1d1d ;
+  color: #fca5a5 ;
   padding: 0.75rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;

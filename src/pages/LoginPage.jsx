@@ -58,7 +58,7 @@ fetch(url, {
     if (data.token) {
       localStorage.setItem("token", data.token);
     }
-    navigate("/report-incident");
+    navigate("/register");
   })
   .catch((err) => setError(err.message))
   .finally(() => setLoading(false));
