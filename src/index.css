@@ -1,38 +1,131 @@
-/* Center the page content */
+
 body {
+  background-color: #110808;
+  color: #ff0808;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
 
-form {
+/* Flex center container */
+.min-h-screen {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  height: 80vh;
+  justify-content: center;
+  padding: 2rem;
 }
 
+/* Login card box */
+.bg-white {
+  background-color: #1f1f1f !important;
+  color: #e0e0e0;
+  padding: 2rem ;
+  border-radius: 1.5rem;
+  box-shadow: 0 0 20px rgba(241, 0, 0, 0.3);
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+}
+
+/* Page title */
+.text-3xl {
+  text-align: center;
+  font-size: 1.875rem !important;
+  margin-bottom: 1.5rem;
+  color: #ef4444 !important;
+  font-weight: 800;
+}
+
+/* Form spacing */
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+/* Input fields */
 input {
-  padding: 10px;
-  margin: 8px 0;
-  width: 250px;
-  border: 1px solid red;
-  border-radius: 5px;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background-color: #292929;
+  color: #ffffff;
+  border: 1px solid #f87171;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
-/* Style the submit button */
-button[type="submit"] {
-  background-color: red;
-  color: white;
-  padding: 10px 20px;
+input:focus {
+  outline: none;
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px #ef4444;
+}
+
+/* Error message box */
+.bg-red-100 {
+  background-color: #7f1d1d !important;
+  color: #fca5a5 !important;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+
+.bg-red-600 {
+  background-color: #ef4444 ;
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  text-align: center;
   border: none;
-  margin-top: 10px;
-  border-radius: 5px;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  width: 100%;
+  transition: background-color 0.2s ease;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
-  background-color: darkred;
+.bg-red-600:hover {
+  background-color: #dc2626 ;
+}
+
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-center {
+  text-align: center ;
+  margin-top: 1.25rem;
+}
+
+.text-red-600 {
+  color: #d81b1b ;
+  cursor: pointer;
+}
+
+.text-red-600:hover {
+  text-decoration: underline;
+}
+
+.text-blue-600 {
+  color: #131313 ;
+  text-decoration: underline;
+}
+
+.text-blue-600:hover {
+  color: #e40000 ;
+}
+
+/* Bottom button spacing */
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+
+button, input {
+  transition: all 0.2s ease-in-out;
 }
