@@ -1,6 +1,6 @@
-/* src/styles.css */
+
 body {
-    background-color: red;
+    background-color: rgb(0, 0, 0);
     font-family: Arial, sans-serif;
 }
 
@@ -52,7 +52,7 @@ a:hover {
 }
 
 .back-button {
-    color: black;
+    color: rgb(247, 247, 247);
     background-color: transparent;
     border: none;
     cursor: pointer;
