@@ -43,7 +43,6 @@ if (isRegistering && formData.password !== formData.confirmPassword) {
   setLoading(false);
   return;
 }
-
 fetch(url, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
@@ -54,15 +53,17 @@ fetch(url, {
     return res.json();
   })
   .then((data) => {
-    // Store token if returned (optional)
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-    }
-    navigate("/register");
+    const token = data.token || data.access_token;
+
+if (token) {
+  localStorage.setItem("token", token);
+  navigate("/admin"); 
+} else {
+  throw new Error("Token not found in response");
+}
   })
   .catch((err) => setError(err.message))
-  .finally(() => setLoading(false));
-  };
+  .finally(() => setLoading(false));}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#FEE2E2] px-4">
@@ -71,106 +72,106 @@ fetch(url, {
           {isRegistering ? "Create an Ajali Account" : "Login to Ajali"}
         </h1>
 
-    {error && (
-      <div className="bg-red-100 text-red-600 p-3 rounded mb-4 text-sm">
-        {error}
-      </div>
-    )}
+{error && (
+  <div className="bg-red-100 text-red-600 p-3 rounded mb-4 text-sm">
+    {error}
+  </div>
+)}
 
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {isRegistering && (
-        <input
-          type="text"
-          name="username"
-          placeholder="Full Name"
-          value={formData.username}
-          onChange={handleChange}
-          className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-          required
-        />
-      )}
+<form onSubmit={handleSubmit} className="space-y-4">
+  {isRegistering && (
+    <input
+      type="text"
+      name="username"
+      placeholder="Full Name"
+      value={formData.username}
+      onChange={handleChange}
+      className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+      required
+    />
+  )}
 
-      <input
-        type="email"
-        name="email"
-        placeholder="Email Address"
-        value={formData.email}
-        onChange={handleChange}
-        className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-        required
-      />
+  <input
+    type="email"
+    name="email"
+    placeholder="Email Address"
+    value={formData.email}
+    onChange={handleChange}
+    className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+    required
+  />
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-        required
-      />
+  <input
+    type="password"
+    name="password"
+    placeholder="Password"
+    value={formData.password}
+    onChange={handleChange}
+    className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+    required
+  />
 
-      {isRegistering && (
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-          required
-        />
-      )}
+  {isRegistering && (
+    <input
+      type="password"
+      name="confirmPassword"
+      placeholder="Confirm Password"
+      value={formData.confirmPassword}
+      onChange={handleChange}
+      className="w-full p-3 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+      required
+    />
+  )}
 
+  <button
+    type="submit"
+    disabled={loading}
+    className={`w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition ${
+      loading ? "opacity-50 cursor-not-allowed" : ""
+    }`}
+  >
+    {loading
+      ? isRegistering
+        ? "Signing Up..."
+        : "Logging In..."
+      : isRegistering
+      ? "Sign Up"
+      : "Login"}
+  </button>
+</form>
+
+<div className="mt-4 text-center text-sm text-gray-600">
+  {isRegistering ? (
+    <>
+      Already have an account?{" "}
       <button
-        type="submit"
-        disabled={loading}
-        className={`w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition ${
-          loading ? "opacity-50 cursor-not-allowed" : ""
-        }`}
+        onClick={() => setIsRegistering(false)}
+        className="text-red-600 hover:underline font-medium"
       >
-        {loading
-          ? isRegistering
-            ? "Signing Up..."
-            : "Logging In..."
-          : isRegistering
-          ? "Sign Up"
-          : "Login"}
+        Login here
       </button>
-    </form>
-
-    <div className="mt-4 text-center text-sm text-gray-600">
-      {isRegistering ? (
-        <>
-          Already have an account?{" "}
-          <button
-            onClick={() => setIsRegistering(false)}
-            className="text-red-600 hover:underline font-medium"
-          >
-            Login here
-          </button>
-        </>
-      ) : (
-        <>
-          New to Ajali?{" "}
-          <button
-            onClick={() => setIsRegistering(true)}
-            className="text-red-600 hover:underline font-medium"
-          >
-            Create account
-          </button>
-        </>
-      )}
-    </div>
-
-    <div className="mt-6 text-center">
+    </>
+  ) : (
+    <>
+      New to Ajali?{" "}
       <button
-        onClick={() => navigate("/register")}
-        className="text-blue-600 underline text-sm hover:text-blue-800"
+        onClick={() => setIsRegistering(true)}
+        className="text-red-600 hover:underline font-medium"
       >
-        Continue without an account →
+        Create account
       </button>
-    </div>
+    </>
+  )}
+</div>
+
+<div className="mt-6 text-center">
+  <button
+    onClick={() => navigate("/register")}
+    className="text-blue-600 underline text-sm hover:text-blue-800"
+  >
+    Continue without an account →
+  </button>
+</div>
   </div>
 </div>
   );

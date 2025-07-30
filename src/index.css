@@ -1,6 +1,6 @@
 
 body {
-  background-color: #242222;
+  background-color: #272525;
   color: #ff0808;
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
@@ -19,10 +19,10 @@ body {
 /* Login card box */
 .bg-white {
   background-color: #1f1f1f ;
-  color: #e75959;
+  color: #fafafa;
   padding: 2rem ;
   border-radius: 1.5rem;
-  box-shadow: 0 0 20px rgba(241, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(238, 212, 212, 0.3);
   width: 100%;
   max-width: 420px;
   box-sizing: border-box;
@@ -47,7 +47,7 @@ input {
   width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
-  background-color: #292929;
+  background-color: #f8e6e6;
   color: #000000;
   border: 1px solid #f87171;
   font-size: 1rem;
@@ -56,7 +56,7 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #ef4444;
+  border-color: #ada5a5;
   box-shadow: 0 0 0 2px #ef4444;
 }
 
@@ -72,7 +72,7 @@ input:focus {
 
 
 .bg-red-600 {
-  background-color: #ef4444 ;
+  background-color: #ecebeb ;
   color: rgb(0, 0, 0);
   font-weight: 600;
   text-align: center;
