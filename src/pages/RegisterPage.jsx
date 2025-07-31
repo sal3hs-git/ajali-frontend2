@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../config"
 
 export default function ReportPage() {
   const { register, handleSubmit, reset } = useForm();
@@ -19,7 +20,7 @@ export default function ReportPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/incidents", {
+      const response = await fetch(`${API_BASE_URL}/incidents`, {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -65,7 +66,7 @@ export default function ReportPage() {
       <option value="closed">Closed</option>
     </select>
 
-    
+
     <input
       type="file"
       multiple

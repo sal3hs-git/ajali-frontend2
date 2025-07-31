@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { API_BASE_URL } from "../../config"
+
 function IncidentList() {
   const [incidents, setIncidents] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/incidents') 
+    fetch(`${API_BASE_URL}/incidents`)
       .then(res => res.json())
       .then(data => setIncidents(data))
       .catch(err => console.error(err));

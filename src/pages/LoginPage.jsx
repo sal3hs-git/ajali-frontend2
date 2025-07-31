@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../config"
 
 export default function LoginPage() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -24,8 +25,8 @@ export default function LoginPage() {
 
 // Build correct URL based on isRegistering
 const url = isRegistering
-  ? "http://127.0.0.1:5000/auth/register"
-  : "http://127.0.0.1:5000/auth/login";
+  ? `${API_BASE_URL}/auth/register`
+  : `${API_BASE_URL}/auth/login`;
 
 const body = isRegistering
   ? {

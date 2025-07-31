@@ -1,16 +1,50 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
 
 export default function ReportPage() {
   const { register, handleSubmit, reset } = useForm();
   const [message, setMessage] = useState("");
 
-  const onSubmit = (data) => {
-    console.log("Mock Report Submitted:", data);
-    setMessage("Incident reported successfully!");
-    reset();
-    setTimeout(() => setMessage(""), 3000);
+  const onSubmit = async (data) => {
+    try {
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("reporter_username", data.user);
+      formData.append("latitude", data.latitude);
+      formData.append("longitude", data.longitude);
+
+      if (data.image && data.image[0]) {
+        formData.append("image", data.image[0]);
+      }
+
+      if (data.video && data.video[0]) {
+        formData.append("video", data.video[0]);
+      }
+
+      const response = await fetch(`${API_BASE_URL}/incidents`, {
+        method: "POST",
+        credentials: "include", 
+        body: formData,
+      });
+
+      const result = await response.json();
+      console.log("✅ Server response:", result);
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to submit incident");
+      }
+
+      setMessage("Incident reported successfully!");
+      reset();
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error) {
+      console.error("❌ Submission error:", error.message);
+      setMessage("Error reporting incident");
+      setTimeout(() => setMessage(""), 3000);
+    }
   };
 
   return (
@@ -73,7 +107,7 @@ export default function ReportPage() {
         </div>
 
         <div style={styles.uploadSection}>
-          <label style={styles.label}> Video Upload</label>
+          <label style={styles.label}>Video Upload</label>
           <input
             type="file"
             accept="video/*"
@@ -90,93 +124,3 @@ export default function ReportPage() {
     </div>
   );
 }
-
-const styles = {
-  container: {
-    padding: "2rem",
-    fontFamily: "Arial, sans-serif",
-    maxWidth: "600px",
-    margin: "0 auto",
-    backgroundColor: "#ffffff",
-    borderRadius: "10px",
-    border: "2px solid #d32f2f",
-    boxShadow: "0 0 10px rgba(211, 47, 47, 0.3)",
-  },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "1.5rem",
-    paddingBottom: "0.5rem",
-    borderBottom: "2px solid #d32f2f",
-  },
-  logo: {
-    color: "#d32f2f",
-    fontWeight: "bold",
-    fontSize: "1.5rem",
-  },
-  userTag: {
-    backgroundColor: "#f8d7da",
-    color: "#d32f2f",
-    padding: "0.4rem 0.8rem",
-    borderRadius: "999px",
-    fontWeight: "bold",
-  },
-  title: {
-    fontSize: "1.5rem",
-    color: "#d32f2f",
-    marginBottom: "1rem",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-  },
-  input: {
-    padding: "0.75rem",
-    border: "1px solid #ccc",
-    borderRadius: "6px",
-    fontSize: "1rem",
-  },
-  textarea: {
-    padding: "0.75rem",
-    height: "100px",
-    border: "1px solid #ccc",
-    borderRadius: "6px",
-    fontSize: "1rem",
-  },
-  uploadSection: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  label: {
-    fontWeight: "bold",
-    color: "#d32f2f",
-    marginBottom: "0.3rem",
-  },
-  fileInput: {
-    border: "none",
-  },
-  button: {
-    padding: "0.75rem",
-    backgroundColor: "#d32f2f",
-    color: "white",
-    fontWeight: "bold",
-    border: "none",
-    borderRadius: "6px",
-    cursor: "pointer",
-    fontSize: "1rem",
-  },
-  success: {
-    color: "green",
-    fontWeight: "bold",
-    marginTop: "1rem",
-  },
-  backLink: {
-    display: "inline-block",
-    marginTop: "1.5rem",
-    color: "#d32f2f",
-    textDecoration: "none",
-    fontWeight: "bold",
-  },
-};

@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../config"
 
 export default function DashboardPage() {
   const [mediaItems, setMediaItems] = useState([]);
   const [error, setError] = useState(null);
 
-  const BASE_URL = "http://localhost:5000"; 
+
 
   useEffect(() => {
-    fetch(`${BASE_URL}/incidents`)
+    fetch(`${API_BASE_URL}incidents`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch incidents");
         return res.json();

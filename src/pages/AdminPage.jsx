@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 import "./AdminPage.css";
+import { API_BASE_URL } from "../../config"
 
 export default function AdminPage() {
   const [users, setUsers] = useState([]);
@@ -16,7 +17,7 @@ export default function AdminPage() {
     }
 
 
-    fetch("http://127.0.0.1:5000/admin/users", {
+    fetch(`${API_BASE_URL}/admin/users`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -38,7 +39,7 @@ export default function AdminPage() {
       });
 
 
-    fetch("http://127.0.0.1:5000/incidents", {
+    fetch(`${API_BASE_URL}/incidents`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -75,7 +76,7 @@ export default function AdminPage() {
     const token = localStorage.getItem("token");
     const user = users.find((u) => u.id === id);
 
-    fetch(`http://127.0.0.1:5000/users/${id}`, {
+    fetch(`${API_BASE_URL}/users/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +104,7 @@ export default function AdminPage() {
   const handleClearIncidentStatus = (id) => {
     const token = localStorage.getItem("token");
 
-    fetch(`http://127.0.0.1:5000/admin/incidents/${id}`, {
+    fetch(`${API_BASE_URL}/admin/incidents/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -125,7 +126,7 @@ export default function AdminPage() {
   const handleStatusChange = (id, status) => {
     const token = localStorage.getItem("token");
 
-    fetch(`http://127.0.0.1:5000/admin/incidents/${id}`, {
+    fetch(`${API_BASE_URL}/admin/incidents/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -150,14 +151,13 @@ export default function AdminPage() {
     const token = localStorage.getItem("token");
 
     if (!window.confirm("Are you sure you want to permanently delete this incident?")) return;
-
-    fetch(`http://127.0.0.1:5000/admin/incidents/${id}`, {
+    fetch(`${API_BASE_URL}/admin/incidents/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => {
+       .then((res) => {
         if (!res.ok) throw new Error("Failed to delete incident.");
         return res.json();
       })
