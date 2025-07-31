@@ -5,24 +5,25 @@ export default function DashboardPage() {
   const [mediaItems, setMediaItems] = useState([]);
   const [error, setError] = useState(null);
 
+  const BASE_URL = "http://localhost:5000"; 
+
   useEffect(() => {
-    fetch("http://localhost:5000/incidents")
+    fetch(`${BASE_URL}/incidents`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch incidents");
         return res.json();
       })
       .then((data) => {
-        // Flatten all media from all incidents and take only the first 30
-        const allMedia = data
-          .flatMap((incident) =>
-            incident.media.map((m) => ({
-              ...m,
-              incidentTitle: incident.title,
-              incidentId: incident.id,
-            }))
-          )
-          .slice(0, 30);
-        setMediaItems(allMedia);
+        const incidentsWithMedia = data.map((incident) => ({
+          ...incident,
+          media: incident.media.map((m) => ({
+            ...m,
+            url: m.url.startsWith("http") ? m.url : `${BASE_URL}/uploads/${m.url}`,
+            incidentTitle: incident.title,
+            incidentId: incident.id,
+          })),
+        }));
+        setMediaItems(incidentsWithMedia);
       })
       .catch((err) => {
         setError(err.message);
@@ -40,28 +41,43 @@ export default function DashboardPage() {
         </nav>
       </header>
 
-  <h3 style={styles.title}>Media Dashboard</h3>
+      <h3 style={styles.title}>Media Dashboard</h3>
 
-  {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
-  <div style={styles.mediaGrid}>
-    {mediaItems.map((item, index) => (
-      <div key={index} style={styles.card}>
-        {item.type === "image" ? (
-          <img src={item.url} alt="Incident Media" style={styles.media} />
-        ) : (
-          <video controls style={styles.media}>
-            <source src={item.url} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        )}
-        <div style={styles.caption}>
-          <small>{item.incidentTitle}</small>
+      {mediaItems.length === 0 && !error && <p>No media to display yet.</p>}
+
+      {mediaItems.map((incident, i) => (
+        <div key={incident.id || i} style={{ marginBottom: "2rem" }}>
+          <h4>{incident.title}</h4>
+          <div style={styles.mediaGrid}>
+            {incident.media.map((item, index) => {
+              const mediaUrl = item.url;
+
+              const isVideo =
+                item.type === "video" ||
+                mediaUrl.match(/\.(mp4|webm|ogg)$/i);
+
+              return (
+                <div key={index} style={styles.card}>
+                  {isVideo ? (
+                    <video controls style={styles.media}>
+                      <source src={mediaUrl} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <img src={mediaUrl} alt="Incident Media" style={styles.media} />
+                  )}
+                  <div style={styles.caption}>
+                    <small>{incident.title}</small>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    ))}
-  </div>
-</div>
+      ))}
+    </div>
   );
 }
 

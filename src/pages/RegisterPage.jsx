@@ -5,48 +5,53 @@ import { Link } from "react-router-dom";
 export default function ReportPage() {
   const { register, handleSubmit, reset } = useForm();
   const [message, setMessage] = useState("");
-
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("latitude", data.latitude.toString());
     formData.append("longitude", data.longitude.toString());
+    formData.append("status", data.status);
 
-formData.append("status", data.status);
 
-// Append media files
-for (let i = 0; i < data.media.length; i++) {
-  formData.append("media", data.media[i]);
-}
+    for (let i = 0; i < data.media.length; i++) {
+      formData.append("media", data.media[i]);
+    }
 
-try {
-  const response = await fetch("http://localhost:5000/incidents", {
-    method: "POST",
-    credentials: "include",
-    body: formData, // No need for Content-Type header with FormData
-  });
+    try {
+      const response = await fetch("http://localhost:5000/incidents", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
 
-  const result = await response.json();
-  console.log("✅ Server response:", result);
+      const result = await response.json();
 
-  if (!response.ok) {
-    throw new Error(result.error || "Failed to submit incident");
-  }
 
-  setMessage("Incident reported successfully!");
-  reset();
-  setTimeout(() => setMessage(""), 3000);
-} catch (error) {
-  console.error("❌ Error submitting incident:", error.message);
-  setMessage("Failed to report incident.");
-  setTimeout(() => setMessage(""), 3000);
-}
+      const formatted = {
+        ...result,
+        media: Array.isArray(result.media) ? result.media : [result.media],
+      };
+
+      console.log("✅ Normalized Server response:", formatted);
+
+      if (!response.ok) {
+        throw new Error(formatted.error || "Failed to submit incident");
+      }
+
+      setMessage("Incident reported successfully!");
+      reset();
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error) {
+      console.error("❌ Error submitting incident:", error.message);
+      setMessage("Failed to report incident.");
+      setTimeout(() => setMessage(""), 3000);
+    }
   };
 
   return (
     <div style={styles.container}>
-      {/* ... header and title unchanged ... */}
+
 
   <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
     <input type="text" placeholder="Title" {...register("title")} style={styles.input} required />
@@ -60,7 +65,7 @@ try {
       <option value="closed">Closed</option>
     </select>
 
-    {/* Add media file input here */}
+    
     <input
       type="file"
       multiple

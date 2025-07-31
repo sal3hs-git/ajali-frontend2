@@ -57,7 +57,7 @@ fetch(url, {
 
 if (token) {
   localStorage.setItem("token", token);
-  navigate("/admin"); 
+  navigate("/register");
 } else {
   throw new Error("Token not found in response");
 }

@@ -13,7 +13,7 @@ export default function AdminPage() {
       return;
     }
 
-    // Fetch admin users
+
     fetch("http://127.0.0.1:5000/admin/users", {
       method: "GET",
       headers: {
@@ -35,7 +35,7 @@ export default function AdminPage() {
         console.error(err);
       });
 
-    // Fetch incidents (token assumed to be required here too)
+    
     fetch("http://127.0.0.1:5000/incidents", {
       method: "GET",
       headers: {
