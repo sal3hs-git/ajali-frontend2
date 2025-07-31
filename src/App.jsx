@@ -5,6 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import ReportPage from "./pages/ReportPage";
 import LoginForm from "./components/Auth/LoginForm";
 import AdminPage from "./pages/AdminPage";
+
 function App() {
   return (
     <Routes>
@@ -13,6 +14,7 @@ function App() {
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/report" element={<ReportPage />} />
       <Route path="/admin" element={<AdminPage />} />
+
     </Routes>
   );
 }

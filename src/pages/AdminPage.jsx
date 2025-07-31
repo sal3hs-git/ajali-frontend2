@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+
 import "./AdminPage.css";
 
 export default function AdminPage() {
@@ -35,7 +37,7 @@ export default function AdminPage() {
         console.error(err);
       });
 
-    
+
     fetch("http://127.0.0.1:5000/incidents", {
       method: "GET",
       headers: {
@@ -54,6 +56,13 @@ export default function AdminPage() {
         console.error(err);
       });
   }, []);
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+  });
+  const defaultCenter = {
+    lat: -1.2921,
+    lng: 36.8219,
+  };
 
   const handleUserChange = (id, field, value) => {
     const updated = users.map((user) =>
@@ -260,6 +269,30 @@ export default function AdminPage() {
           </tbody>
         </table>
       </section>
+      <section className="admin-section">
+  <h2>Map of Incidents</h2>
+  {isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={{ width: "100%", height: "400px" }}
+      center={defaultCenter}
+      zoom={7}
+    >
+      {incidents.map((incident) => (
+        <Marker
+          key={incident.id}
+          position={{
+            lat: parseFloat(incident.latitude),
+            lng: parseFloat(incident.longitude),
+          }}
+          title={incident.description}
+        />
+      ))}
+    </GoogleMap>
+  ) : (
+    <p>Loading map...</p>
+  )}
+</section>
+
     </div>
   );
 }
