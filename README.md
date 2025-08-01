@@ -1,5 +1,5 @@
 Ajali is a platform that helps users report emergencies and accidents in real-time. The aim is to speed up response times by giving first responders timely and accurate information.
-
+FIND LIVE LINK HERE:https://ajali-frontend2.vercel.app/
 Features:
 
  User Side
