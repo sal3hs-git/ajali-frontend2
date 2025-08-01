@@ -9,7 +9,7 @@ export default function DashboardPage() {
 
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}incidents`)
+    fetch(`${API_BASE_URL}/incidents`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch incidents");
         return res.json();
@@ -19,7 +19,7 @@ export default function DashboardPage() {
           ...incident,
           media: incident.media.map((m) => ({
             ...m,
-            url: m.url.startsWith("http") ? m.url : `${BASE_URL}/uploads/${m.url}`,
+            url: m.url.startsWith("http") ? m.url : `${API_BASE_URL}/uploads/${m.url}`,
             incidentTitle: incident.title,
             incidentId: incident.id,
           })),
